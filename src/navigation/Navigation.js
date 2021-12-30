@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignUp from '../pages/Auth/SignUp';
 import SignIn from '../pages/Auth/SignIn';
 import HomePage from '../pages/homepage/HomePage';
+import ActivityPage from '../pages/ActivityPage/ActivityPage';
 import {AuthContext} from './AuthProvider';
 import {Text} from 'react-native';
 
@@ -32,7 +33,10 @@ function Navigation() {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="HomePage" component={HomePage} />
+          <>
+            <Stack.Screen name="HomePage" component={HomePage} />
+            <Stack.Screen name="ActivityPage" component={ActivityPage} />
+          </>
         ) : (
           <>
             <Stack.Screen name="SignInPage" component={SignIn} />

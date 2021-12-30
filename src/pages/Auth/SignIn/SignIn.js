@@ -42,7 +42,11 @@ function SignIn() {
           onChangeText={password => setSignData({...signData, password})}
         />
         <Button title={'SignIn'} onPress={HandleLogin} />
-        <Button title={'signUp'} onPress={handleNavigateSignUp} />
+        <Button
+          title={'signUp'}
+          onPress={handleNavigateSignUp}
+          theme="Outline"
+        />
       </View>
     </View>
   );
