@@ -38,6 +38,7 @@ function SignIn() {
         <Input
           value={signData.password}
           label={'Password'}
+          secureTextEntry={true}
           placeholder={'write here'}
           onChangeText={password => setSignData({...signData, password})}
         />

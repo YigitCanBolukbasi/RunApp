@@ -55,6 +55,7 @@ function SignUp() {
         <Input
           style={styles.input}
           label={'Password'}
+          secureTextEntry={true}
           placeholder={'write here'}
           onChangeText={password => SetSignUpData({...signUpData, password})}
         />
@@ -62,6 +63,7 @@ function SignUp() {
           style={styles.input}
           label={'Re Password'}
           placeholder={'write here'}
+          secureTextEntry={true}
           onChangeText={repassword =>
             SetSignUpData({...signUpData, repassword})
           }
