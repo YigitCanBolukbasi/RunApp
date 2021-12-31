@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+
 function ActivityPage() {
   return (
-    <View>
-      <Text> map </Text>
+    <View style={{flex: 1}}>
+      <MapView style={{flex: 1}} provider={PROVIDER_GOOGLE} />
     </View>
   );
 }
