@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Alert} from 'react-native';
+import {View, Alert, Image} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -25,6 +25,12 @@ function SignIn() {
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.image}
+        source={{
+          uri: 'https://s3.eu-central-1.amazonaws.com/cdn.barcin.com/2020/03/hizli-ve-esnek-bir-kosucu-olmak-sportmen-cover.jpg',
+        }}
+      />
       <View style={styles.icon}>
         <Icon name="account" size={100} color={'black'} />
       </View>

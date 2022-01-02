@@ -6,6 +6,8 @@ import SignUp from '../pages/Auth/SignUp';
 import SignIn from '../pages/Auth/SignIn';
 import HomePage from '../pages/homepage/HomePage';
 import ActivityPage from '../pages/ActivityPage/ActivityPage';
+import ActivityHistoryPage from '../pages/ActivityHistoryPage/ActivityHistoryPage';
+import LeaderBoard from '../pages/LeaderBoard/LeaderBoard';
 import {AuthContext} from './AuthProvider';
 import {Text} from 'react-native';
 
@@ -31,11 +33,16 @@ function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         {user ? (
           <>
             <Stack.Screen name="HomePage" component={HomePage} />
             <Stack.Screen name="ActivityPage" component={ActivityPage} />
+            <Stack.Screen
+              name="ActivityHistoryPage"
+              component={ActivityHistoryPage}
+            />
+            <Stack.Screen name="LeaderBoardPage" component={LeaderBoard} />
           </>
         ) : (
           <>
