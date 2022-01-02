@@ -1,10 +1,8 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import {Dimensions, StyleSheet} from 'react-native';
 
-export default function ActivityPage.styles() {
-  return (
-    <View>
-      <Text></Text>
-    </View>
-  )
-}
+export default StyleSheet.create({
+  modal: {
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height / 12,
+  },
+});

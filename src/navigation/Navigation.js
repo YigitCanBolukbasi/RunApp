@@ -9,7 +9,7 @@ import ActivityPage from '../pages/ActivityPage/ActivityPage';
 import ActivityHistoryPage from '../pages/ActivityHistoryPage/ActivityHistoryPage';
 import LeaderBoard from '../pages/LeaderBoard/LeaderBoard';
 import {AuthContext} from './AuthProvider';
-import {Text} from 'react-native';
+import {Text, ActivityIndicator} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +28,7 @@ function Navigation() {
   }, []);
 
   if (loading) {
-    return <Text>Loading</Text>;
+    return <ActivityIndicator />;
   }
 
   return (

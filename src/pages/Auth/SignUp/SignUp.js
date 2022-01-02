@@ -3,12 +3,10 @@ import {View, Alert, Text, Image} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Auth from '@react-native-firebase/auth';
 
 import Button from '../../../components/Button/Button';
 import Input from '../../../components/Input/Input';
 import styles from './SignUp.styles';
-
 import {AuthContext} from '../../../navigation/AuthProvider';
 
 function SignUp() {
