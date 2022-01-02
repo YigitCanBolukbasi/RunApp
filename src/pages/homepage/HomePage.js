@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
+import GetLocation from 'react-native-get-location';
 
 import auth from '@react-native-firebase/auth';
 import Button from '../../components/Button/Button';
@@ -19,6 +20,19 @@ export default function HomePage() {
   };
   const handleNavigateLeaderBoard = () => {
     navigation.navigate('LeaderBoardPage');
+  };
+  const deneme_request = () => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        console.log(location);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
   };
   return (
     <View style={styles.container}>
@@ -46,6 +60,7 @@ export default function HomePage() {
           onPress={handleNavigateLeaderBoard}
         />
       </View>
+      <DashBoardCard title={'konumc'} onPress={deneme_request} />
       <Button title={'Log Out'} onPress={() => auth().signOut()} />
     </View>
   );
