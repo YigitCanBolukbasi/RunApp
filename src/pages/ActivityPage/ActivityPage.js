@@ -26,6 +26,7 @@ function ActivityPage() {
   useEffect(() => {
     handleLocationRequest();
   }, []);
+
   return (
     <View style={{flex: 1}}>
       <MapView style={{flex: 1}} provider={PROVIDER_GOOGLE} />
