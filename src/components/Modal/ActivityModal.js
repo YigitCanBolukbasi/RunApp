@@ -5,11 +5,16 @@ import Modal from 'react-native-modal';
 import Button from '../Button/Button';
 import styles from './ActivtyModal.styles';
 
-function ActivtyModal() {
+function ActivtyModal({onPress, stopLocationReording}) {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+    if (!isModalVisible) {
+      onPress();
+    } else {
+      stopLocationReording();
+    }
   };
 
   return (

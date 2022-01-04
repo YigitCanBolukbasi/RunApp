@@ -1,38 +1,38 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
 
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import GetLocation from 'react-native-get-location';
+import {useNavigation} from '@react-navigation/native';
 
 import ActivtyModal from '../../components/Modal/ActivityModal';
+import Button from '../../components/Button/Button';
 import styles from './ActivityPage.styles';
+import useLocation from '../../hooks/useLocation';
 
 function ActivityPage() {
-  const [currentLocation, setCurrentLocation] = useState();
-  const handleLocationRequest = () => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-      .then(location => {
-        console.log('fonksiyondan gelen :', location);
-        setCurrentLocation(location);
-      })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn(code, message);
-      });
+  const navigation = useNavigation();
+  const {currentLocation, handleNewActivity, stopLocationRecording} =
+    useLocation();
+
+  const handleGoBackHomePage = () => {
+    navigation.navigate('HomePage');
   };
-  useEffect(() => {
-    handleLocationRequest();
-  }, []);
 
   return (
     <View style={{flex: 1}}>
       <MapView style={{flex: 1}} provider={PROVIDER_GOOGLE} />
       <View>
-        <ActivtyModal style={styles.modal} />
+        <ActivtyModal
+          style={styles.modal}
+          onPress={handleNewActivity}
+          stopLocationReording={stopLocationRecording}
+        />
       </View>
+      <Button
+        title={'Back to Home Page'}
+        onPress={handleGoBackHomePage}
+        theme="Outline"
+      />
     </View>
   );
 }

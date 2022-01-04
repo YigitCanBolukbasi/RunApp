@@ -1,7 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {Text, ActivityIndicator} from 'react-native';
+
 import auth from '@react-native-firebase/auth';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import SignUp from '../pages/Auth/SignUp';
 import SignIn from '../pages/Auth/SignIn';
 import HomePage from '../pages/homepage/HomePage';
@@ -9,7 +12,6 @@ import ActivityPage from '../pages/ActivityPage/ActivityPage';
 import ActivityHistoryPage from '../pages/ActivityHistoryPage/ActivityHistoryPage';
 import LeaderBoard from '../pages/LeaderBoard/LeaderBoard';
 import {AuthContext} from './AuthProvider';
-import {Text, ActivityIndicator} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
