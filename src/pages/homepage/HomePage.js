@@ -43,7 +43,7 @@ export default function HomePage() {
           onPress={handleNavigateActivityHistory}
         />
         <DashBoardCard
-          title={'LeaderBoard'}
+          title={'Leader Board'}
           onPress={handleNavigateLeaderBoard}
         />
       </View>

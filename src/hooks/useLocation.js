@@ -5,9 +5,26 @@ import database from '@react-native-firebase/database';
 import {AuthContext} from '../navigation/AuthProvider';
 
 export default function useLocation() {
-  const [currentLocation, setCurrentLocation] = useState({});
+  const [currentLocation, setCurrentLocation] = useState();
   const {user} = useContext(AuthContext);
   const [intervalId, setIntervalId] = useState('');
+  const [markerLocation, setMarkerLocation] = useState({});
+
+  const handleLocationRequest = async () => {
+    try {
+      const locationData = await GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 15000,
+      }).then(location => {
+        setCurrentLocation(location);
+
+        console.log('state dolu', currentLocation);
+      });
+    } catch (error) {
+      const {code, message} = error;
+      console.warn(code, message);
+    }
+  };
 
   const handleNewActivity = async () => {
     const newReference = database().ref(`users/${user.uid}/activities/`).push();
@@ -25,7 +42,7 @@ export default function useLocation() {
       handleLocationRequest();
       setIntervalId(interval);
       database()
-        .ref(`users/${user.uid}/activities/${key}/${i}`)
+        .ref(`users/${user.uid}/activities/${key}/log-${i}`)
         .set({
           currentLocation,
         })
@@ -38,25 +55,20 @@ export default function useLocation() {
   const fetchLocations = async key => {
     database()
       .ref(`users/${user.uid}/activities/${key}/`)
-      .on('value', snapshot => {
-        console.log('yarak', snapshot.val());
+      .on('child_added', snapshot => {
+        setMarkerLocation(snapshot.val());
+        console.log('gelen data:', markerLocation);
+
+        // const parsedData = Object.entries(locationData['currentLocation']);
+        // console.log(parsedData);
       });
   };
 
-  const handleLocationRequest = async () => {
-    try {
-      const locationData = await GetLocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 15000,
-      }).then(location => {
-        setCurrentLocation(location);
-        console.log('state dolu');
-      });
-    } catch (error) {
-      const {code, message} = error;
-      console.warn(code, message);
-    }
+  return {
+    currentLocation,
+    markerLocation,
+    handleNewActivity,
+    stopLocationRecording,
+    handleLocationRequest,
   };
-
-  return {currentLocation, handleNewActivity, stopLocationRecording};
 }
