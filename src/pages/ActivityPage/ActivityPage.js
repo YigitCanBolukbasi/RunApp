@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Dimensions} from 'react-native';
 
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Marker, Polyline, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useNavigation} from '@react-navigation/native';
 
 import ActivtyModal from '../../components/Modal/ActivityModal';
@@ -11,24 +11,42 @@ import useLocation from '../../hooks/useLocation';
 
 function ActivityPage() {
   const navigation = useNavigation();
+  const [drawData, setDrawData] = useState();
   const {
     currentLocation,
-    markerLocation,
+    polyLine,
     handleNewActivity,
     stopLocationRecording,
     handleLocationRequest,
+    fetchLocations,
   } = useLocation();
 
   const handleGoBackHomePage = () => {
     navigation.navigate('HomePage');
   };
+  const ParsedPolyLineData = polyLine
+    ? polyLine.map(k => ({
+        latitude: k.latitude,
+        longitude: k.longitude,
+      }))
+    : null;
+  function deneme_draw() {
+    setDrawData(ParsedPolyLineData);
+    console.log('drawData :', drawData);
+  }
   useEffect(() => {
-    handleLocationRequest();
+    handleLocationRequest().then(fetchLocations());
   }, []);
 
   return (
     <View style={{flex: 1}}>
-      <MapView style={{flex: 1}} provider={PROVIDER_GOOGLE}>
+      <MapView
+        style={{
+          flex: 1,
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height,
+        }}
+        provider={PROVIDER_GOOGLE}>
         {currentLocation ? (
           <Marker
             coordinate={{
@@ -37,6 +55,46 @@ function ActivityPage() {
             }}
           />
         ) : null}
+        {/* {polyLine
+          ? polyLine.map(k =>
+              console.log(
+                'maplenmiş latitude:',
+                k.latitude,
+                ' longitude:',
+                k.longitude,
+              ),
+            )
+          : null} */}
+        {/* <Marker
+          coordinate={{
+            latitude: 41.168984,
+            longitude: 28.9059492,
+          }}
+        />
+        <Marker
+          coordinate={{
+            latitude: 41.1697405,
+            longitude: 28.905526,
+          }}
+        /> */}
+        {/* <Polyline
+          coordinates={[
+            {latitude: 41.168984, longitude: 28.9059492},
+            {latitude: 41.1691525, longitude: 28.9058625},
+            {latitude: 41.1693769, longitude: 28.9057375},
+            {latitude: 41.1697405, longitude: 28.905526},
+          ]}
+          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColors={[
+            '#7F0000',
+            '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+            '#B24112',
+            '#E5845C',
+            '#238C23',
+            '#7F0000',
+          ]}
+          strokeWidth={3}
+        /> */}
       </MapView>
 
       <View>
@@ -56,6 +114,7 @@ function ActivityPage() {
         onPress={handleGoBackHomePage}
         theme="Outline"
       />
+      <Button title={'ekrana çizdir'} onPress={deneme_draw} theme="Outline" />
     </View>
   );
 }

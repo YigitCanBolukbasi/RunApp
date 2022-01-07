@@ -8,7 +8,7 @@ export default function useLocation() {
   const [currentLocation, setCurrentLocation] = useState();
   const {user} = useContext(AuthContext);
   const [intervalId, setIntervalId] = useState('');
-  const [markerLocation, setMarkerLocation] = useState({});
+  const [polyLine, setPolyline] = useState();
 
   const handleLocationRequest = async () => {
     try {
@@ -41,12 +41,10 @@ export default function useLocation() {
     const interval = setInterval(() => {
       handleLocationRequest();
       setIntervalId(interval);
-      database()
-        .ref(`users/${user.uid}/activities/${key}/log-${i}`)
-        .set({
-          currentLocation,
-        })
-        .then(() => console.log('Data set.'));
+      database().ref(`users/${user.uid}/activities/${key}/log-${i}`).set({
+        currentLocation,
+      });
+      // .then(() => console.log('Data set.'));
 
       i++;
     }, 3000);
@@ -55,20 +53,25 @@ export default function useLocation() {
   const fetchLocations = async key => {
     database()
       .ref(`users/${user.uid}/activities/${key}/`)
-      .on('child_added', snapshot => {
-        setMarkerLocation(snapshot.val());
-        console.log('gelen data:', markerLocation);
-
-        // const parsedData = Object.entries(locationData['currentLocation']);
-        // console.log(parsedData);
+      .on('value', snapshot => {
+        const locationFetchData = snapshot.val();
+        const parsedData = locationFetchData
+          ? Object.keys(locationFetchData).map(k => ({
+              id: k,
+              ...locationFetchData[k]['currentLocation'],
+            }))
+          : null;
+        parsedData ? setPolyline(parsedData) : null;
+        // console.log('gelen data:', polyLine);
       });
   };
 
   return {
     currentLocation,
-    markerLocation,
+    polyLine,
     handleNewActivity,
     stopLocationRecording,
     handleLocationRequest,
+    fetchLocations,
   };
 }
