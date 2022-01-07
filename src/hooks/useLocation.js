@@ -8,7 +8,7 @@ export default function useLocation() {
   const [currentLocation, setCurrentLocation] = useState();
   const {user} = useContext(AuthContext);
   const [intervalId, setIntervalId] = useState('');
-  const [polyLine, setPolyline] = useState();
+  const [polyLine, setPolyline] = useState([]);
 
   const handleLocationRequest = async () => {
     try {
@@ -18,7 +18,7 @@ export default function useLocation() {
       }).then(location => {
         setCurrentLocation(location);
 
-        console.log('state dolu', currentLocation);
+        // console.log('state dolu', currentLocation);
       });
     } catch (error) {
       const {code, message} = error;

@@ -77,24 +77,21 @@ function ActivityPage() {
             longitude: 28.905526,
           }}
         /> */}
-        {/* <Polyline
-          coordinates={[
-            {latitude: 41.168984, longitude: 28.9059492},
-            {latitude: 41.1691525, longitude: 28.9058625},
-            {latitude: 41.1693769, longitude: 28.9057375},
-            {latitude: 41.1697405, longitude: 28.905526},
-          ]}
-          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-          strokeColors={[
-            '#7F0000',
-            '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-            '#B24112',
-            '#E5845C',
-            '#238C23',
-            '#7F0000',
-          ]}
-          strokeWidth={3}
-        /> */}
+        {drawData && (
+          <Polyline
+            coordinates={drawData}
+            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+            strokeColors={[
+              '#7F0000',
+              '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+              '#B24112',
+              '#E5845C',
+              '#238C23',
+              '#7F0000',
+            ]}
+            strokeWidth={3}
+          />
+        )}
       </MapView>
 
       <View>
