@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Dimensions} from 'react-native';
+import {View, Text, Dimensions, Switch} from 'react-native';
 
 import MapView, {Marker, Polyline, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useNavigation} from '@react-navigation/native';
@@ -8,10 +8,13 @@ import ActivtyModal from '../../components/Modal/ActivityModal';
 import Button from '../../components/Button/Button';
 import styles from './ActivityPage.styles';
 import useLocation from '../../hooks/useLocation';
+import useFetch from '../../hooks/useFetch';
 
 function ActivityPage() {
   const navigation = useNavigation();
+  const {data} = useFetch();
   const [drawData, setDrawData] = useState();
+  const [switchValue, setSwitchValue] = useState(false);
   const {
     currentLocation,
     polyLine,
@@ -32,7 +35,14 @@ function ActivityPage() {
     : null;
   function deneme_draw() {
     setDrawData(ParsedPolyLineData);
-    console.log('drawData :', drawData);
+    console.log('çizdirilecek kordinatlar:', drawData);
+  }
+  function toggleSwitch() {
+    setSwitchValue(!switchValue);
+    !switchValue ? console.log('konum açıldı') : null;
+    !switchValue && handleLocationRequest();
+    !switchValue && fetchLocations;
+    switchValue && stopLocationRecording;
   }
   useEffect(() => {
     handleLocationRequest().then(fetchLocations());
@@ -55,28 +65,7 @@ function ActivityPage() {
             }}
           />
         ) : null}
-        {/* {polyLine
-          ? polyLine.map(k =>
-              console.log(
-                'maplenmiş latitude:',
-                k.latitude,
-                ' longitude:',
-                k.longitude,
-              ),
-            )
-          : null} */}
-        {/* <Marker
-          coordinate={{
-            latitude: 41.168984,
-            longitude: 28.9059492,
-          }}
-        />
-        <Marker
-          coordinate={{
-            latitude: 41.1697405,
-            longitude: 28.905526,
-          }}
-        /> */}
+
         {drawData && (
           <Polyline
             coordinates={drawData}
@@ -95,6 +84,12 @@ function ActivityPage() {
       </MapView>
 
       <View>
+        <View style={styles.switch_container}>
+          <Text style={styles.switch_text}>
+            {switchValue ? 'Location  ON' : 'Location OFF'}
+          </Text>
+          <Switch onChange={toggleSwitch} value={switchValue} />
+        </View>
         <ActivtyModal
           style={styles.modal}
           onPress={handleNewActivity}
@@ -107,11 +102,15 @@ function ActivityPage() {
         theme="Outline"
       />
       <Button
+        title={'see the way you walk'}
+        onPress={deneme_draw}
+        theme="Outline"
+      />
+      <Button
         title={'Back to Home Page'}
         onPress={handleGoBackHomePage}
         theme="Outline"
       />
-      <Button title={'ekrana çizdir'} onPress={deneme_draw} theme="Outline" />
     </View>
   );
 }
