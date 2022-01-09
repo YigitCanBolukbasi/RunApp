@@ -4,9 +4,19 @@ import {Text, View} from 'react-native';
 import Modal from 'react-native-modal';
 import Button from '../Button/Button';
 import styles from './ActivtyModal.styles';
+import useFetch from '../../hooks/useFetch';
+import useLocation from '../../hooks/useLocation';
 
 function ActivtyModal({onPress, stopLocationReording}) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const {currentLocation} = useLocation();
+  const {data} = useFetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${
+      currentLocation && currentLocation.latitude
+    }&lon=${
+      currentLocation && currentLocation.longitude
+    }&appid=88bb13a8e61f58f9d1aade3dde2535a9`,
+  );
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);

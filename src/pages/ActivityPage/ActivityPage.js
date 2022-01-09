@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Dimensions, Switch} from 'react-native';
+import {View, Text, Dimensions, Switch, Alert} from 'react-native';
 
 import MapView, {Marker, Polyline, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useNavigation} from '@react-navigation/native';
@@ -12,7 +12,13 @@ import useFetch from '../../hooks/useFetch';
 
 function ActivityPage() {
   const navigation = useNavigation();
-  const {data} = useFetch();
+  const {data} = useFetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${
+      currentLocation && currentLocation.latitude
+    }&lon=${
+      currentLocation && currentLocation.longitude
+    }&appid=88bb13a8e61f58f9d1aade3dde2535a9`,
+  );
   const [drawData, setDrawData] = useState();
   const [switchValue, setSwitchValue] = useState(false);
   const {
@@ -27,25 +33,29 @@ function ActivityPage() {
   const handleGoBackHomePage = () => {
     navigation.navigate('HomePage');
   };
-  const ParsedPolyLineData = polyLine
-    ? polyLine.map(k => ({
-        latitude: k.latitude,
-        longitude: k.longitude,
-      }))
-    : null;
-  function deneme_draw() {
-    setDrawData(ParsedPolyLineData);
-    console.log('çizdirilecek kordinatlar:', drawData);
-  }
+  const ParsedPolyLineData =
+    polyLine &&
+    polyLine.map(k => ({
+      latitude: k.latitude,
+      longitude: k.longitude,
+    }));
+
+  const deneme_draw = async () => {
+    try {
+      await fetchLocations();
+      setDrawData(ParsedPolyLineData);
+      console.log('çizdirilecek kordinatlar:', drawData);
+    } catch (error) {}
+  };
   function toggleSwitch() {
     setSwitchValue(!switchValue);
     !switchValue ? console.log('konum açıldı') : null;
     !switchValue && handleLocationRequest();
-    !switchValue && fetchLocations;
     switchValue && stopLocationRecording;
   }
   useEffect(() => {
-    handleLocationRequest().then(fetchLocations());
+    handleLocationRequest();
+    Alert.alert('turn on the switch for your location');
   }, []);
 
   return (
@@ -53,8 +63,6 @@ function ActivityPage() {
       <MapView
         style={{
           flex: 1,
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height,
         }}
         provider={PROVIDER_GOOGLE}>
         {currentLocation ? (

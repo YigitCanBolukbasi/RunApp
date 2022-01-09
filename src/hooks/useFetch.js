@@ -1,30 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import axios from 'axios';
 
-const useFetch = () => {
+function useFetch(url) {
   const [data, setData] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState();
   const [error, setError] = useState();
 
-  const FetchData = async () => {
+  const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=45&lon=43&appid=88bb13a8e61f58f9d1aade3dde2535a9`,
-      );
+      response = await axios.get(url);
       setData(response.data);
-      console.log(response.data.main.temp);
+      console.log('data', data);
+      setLoading(false);
     } catch (err) {
-      setError(err);
-    } finally {
+      setError(err.message);
       setLoading(false);
     }
   };
-  useEffect(() => {
-    FetchData();
-  }, []);
 
-  return {error, loading, data};
-};
+  useEffect(() => {
+    fetchData();
+  }, [url]);
+  return {data, loading, error};
+}
 
 export default useFetch;

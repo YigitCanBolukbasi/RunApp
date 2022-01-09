@@ -18,7 +18,7 @@ export default function useLocation() {
       }).then(location => {
         setCurrentLocation(location);
 
-        // console.log('state dolu', currentLocation);
+        console.log('state dolu', currentLocation);
       });
     } catch (error) {
       const {code, message} = error;
@@ -26,7 +26,7 @@ export default function useLocation() {
     }
   };
 
-  const handleNewActivity = async () => {
+  const handleNewActivity = () => {
     const newReference = database().ref(`users/${user.uid}/activities/`).push();
     startLocationRecording(newReference.key);
     fetchLocations(newReference.key);
@@ -36,14 +36,15 @@ export default function useLocation() {
     clearInterval(intervalId);
   };
 
-  const startLocationRecording = key => {
+  const startLocationRecording = async key => {
     let i = 1;
-    const interval = setInterval(() => {
-      handleLocationRequest();
+    const interval = setInterval(async () => {
+      await handleLocationRequest();
       setIntervalId(interval);
-      database().ref(`users/${user.uid}/activities/${key}/log-${i}`).set({
+      await database().ref(`users/${user.uid}/activities/${key}/log-${i}`).set({
         currentLocation,
       });
+      fetchLocations();
       // .then(() => console.log('Data set.'));
 
       i++;
@@ -62,7 +63,7 @@ export default function useLocation() {
             }))
           : null;
         parsedData ? setPolyline(parsedData) : null;
-        // console.log('gelen data:', polyLine);
+        console.log('gelen data:', polyLine);
       });
   };
 
