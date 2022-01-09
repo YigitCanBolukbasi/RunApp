@@ -11,9 +11,13 @@ import useLocation from '../../hooks/useLocation';
 
 function ActivtyModal({onPress, stopLocationReording}) {
   const [isModalVisible, setModalVisible] = useState(false);
-  const {currentLocation} = useLocation();
+  const {currentLocation, handleLocationRequest} = useLocation();
   const {data} = useFetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=65.9667&lon=-18.5333&appid=88bb13a8e61f58f9d1aade3dde2535a9`,
+    `https://api.openweathermap.org/data/2.5/weather?lat=${
+      currentLocation && currentLocation.latitude
+    }&lon=${
+      currentLocation && currentLocation.longitude
+    }&appid=88bb13a8e61f58f9d1aade3dde2535a9`,
   );
 
   const toggleModal = () => {
@@ -36,6 +40,12 @@ function ActivtyModal({onPress, stopLocationReording}) {
         animationIn={'slideInUp'}
         animationOut={'slideOutDown'}>
         <View style={styles.container_body}>
+          <Button
+            title={'push to see temperature'}
+            onPress={() => {
+              handleLocationRequest();
+            }}
+          />
           <View style={styles.icon}>
             {temperature > 20 ? (
               <Icon name="white-balance-sunny" size={80} color={'orange'} />
