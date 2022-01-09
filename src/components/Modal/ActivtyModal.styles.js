@@ -13,19 +13,20 @@ export default StyleSheet.create({
   },
 
   text: {
-    fontSize: 35,
+    fontSize: 12,
     color: 'black',
   },
-  table_one: {
-    flexDirection: 'row',
-    margin: 5,
-    padding: 5,
-    justifyContent: 'space-between',
+
+  icon: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  table_two: {
-    flexDirection: 'row',
-    margin: 5,
+  warning: {
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 10,
     padding: 5,
-    justifyContent: 'space-between',
   },
 });

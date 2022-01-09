@@ -14,7 +14,12 @@ export default StyleSheet.create({
     borderRadius: 10,
     margin: 5,
   },
-  switch_text: {
+  switch_text_off: {
+    color: 'red',
+    fontWeight: 'bold',
+    margin: 5,
+  },
+  switch_text_on: {
     color: 'blue',
     fontWeight: 'bold',
     margin: 5,

@@ -8,19 +8,12 @@ import ActivtyModal from '../../components/Modal/ActivityModal';
 import Button from '../../components/Button/Button';
 import styles from './ActivityPage.styles';
 import useLocation from '../../hooks/useLocation';
-import useFetch from '../../hooks/useFetch';
 
 function ActivityPage() {
   const navigation = useNavigation();
-  const {data} = useFetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${
-      currentLocation && currentLocation.latitude
-    }&lon=${
-      currentLocation && currentLocation.longitude
-    }&appid=88bb13a8e61f58f9d1aade3dde2535a9`,
-  );
   const [drawData, setDrawData] = useState();
   const [switchValue, setSwitchValue] = useState(false);
+
   const {
     currentLocation,
     polyLine,
@@ -40,11 +33,12 @@ function ActivityPage() {
       longitude: k.longitude,
     }));
 
-  const deneme_draw = async () => {
+  const handleDraw = async () => {
     try {
       await fetchLocations();
       setDrawData(ParsedPolyLineData);
       console.log('çizdirilecek kordinatlar:', drawData);
+      console.log(data);
     } catch (error) {}
   };
   function toggleSwitch() {
@@ -65,14 +59,14 @@ function ActivityPage() {
           flex: 1,
         }}
         provider={PROVIDER_GOOGLE}>
-        {currentLocation ? (
+        {currentLocation && (
           <Marker
             coordinate={{
               latitude: currentLocation.latitude,
               longitude: currentLocation.longitude,
             }}
           />
-        ) : null}
+        )}
 
         {drawData && (
           <Polyline
@@ -93,7 +87,10 @@ function ActivityPage() {
 
       <View>
         <View style={styles.switch_container}>
-          <Text style={styles.switch_text}>
+          <Text
+            style={
+              switchValue ? styles.switch_text_on : styles.switch_text_off
+            }>
             {switchValue ? 'Location  ON' : 'Location OFF'}
           </Text>
           <Switch onChange={toggleSwitch} value={switchValue} />
@@ -110,8 +107,8 @@ function ActivityPage() {
         theme="Outline"
       />
       <Button
-        title={'see the way you walk'}
-        onPress={deneme_draw}
+        title={'draw the path you run'}
+        onPress={handleDraw}
         theme="Outline"
       />
       <Button
