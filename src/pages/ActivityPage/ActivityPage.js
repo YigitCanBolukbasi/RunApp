@@ -102,11 +102,6 @@ function ActivityPage() {
         />
       </View>
       <Button
-        title={'push to refresh your location'}
-        onPress={handleLocationRequest}
-        theme="Outline"
-      />
-      <Button
         title={'draw the path you run'}
         onPress={handleDraw}
         theme="Outline"

@@ -67,7 +67,7 @@ function ActivtyModal({onPress, stopLocationReording}) {
             Speed of Wind : {data && data.wind.speed}
           </Text>
           <View style={styles.warning}>
-            <Text>please keep it open throughout the activity! </Text>
+            <Text>please keep it open throughout the runing! </Text>
           </View>
 
           <Button title="Stop Activity" onPress={toggleModal} />
