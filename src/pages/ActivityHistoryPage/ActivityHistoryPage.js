@@ -1,13 +1,20 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 
+import {useNavigation} from '@react-navigation/native';
+
 import styles from './ActivityHistoryPage.styles';
 import ShareSocial from '../../components/share/share';
 import useLocation from '../../hooks/useLocation';
 import Button from '../../components/Button/Button';
 
 function ActivityHistoryPage() {
+  const navigation = useNavigation();
   const [distanceKm, setDistanceKm] = useState();
+
+  function handleGoBack() {
+    navigation.goBack();
+  }
 
   function distance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295; // Math.PI / 180
@@ -39,6 +46,7 @@ function ActivityHistoryPage() {
       <Text>History:10/01/2022</Text>
 
       <ShareSocial />
+      <Button title={'show the km'} onPress={handleGoBack} />
     </View>
   );
 }
