@@ -12,6 +12,7 @@ import ActivityPage from '../pages/ActivityPage/ActivityPage';
 import ActivityHistoryPage from '../pages/ActivityHistoryPage/ActivityHistoryPage';
 import LeaderBoard from '../pages/LeaderBoard/LeaderBoard';
 import {AuthContext} from './AuthProvider';
+import routes from './routes';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,18 +39,24 @@ function Navigation() {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {user ? (
           <>
-            <Stack.Screen name="HomePage" component={HomePage} />
-            <Stack.Screen name="ActivityPage" component={ActivityPage} />
+            <Stack.Screen name={routes.HOME_PAGE} component={HomePage} />
+            <Stack.Screen
+              name={routes.ACTIVITY_PAGE}
+              component={ActivityPage}
+            />
             <Stack.Screen
               name="ActivityHistoryPage"
               component={ActivityHistoryPage}
             />
-            <Stack.Screen name="LeaderBoardPage" component={LeaderBoard} />
+            <Stack.Screen
+              name={routes.LEADERBOARD_PAGE}
+              component={LeaderBoard}
+            />
           </>
         ) : (
           <>
-            <Stack.Screen name="SignInPage" component={SignIn} />
-            <Stack.Screen name="SignUpPage" component={SignUp} />
+            <Stack.Screen name={routes.SIGN_IN_PAGE} component={SignIn} />
+            <Stack.Screen name={routes.SIGN_UP_PAGE} component={SignUp} />
           </>
         )}
       </Stack.Navigator>
